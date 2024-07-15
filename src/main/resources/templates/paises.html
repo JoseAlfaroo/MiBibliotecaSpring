@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Paises</title>
+</head>
+<body>
+    <h1>Lista de Paises</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pais : ${paises}">
+                <td th:text="${pais.paisID}"></td>
+                <td th:text="${pais.nombrePais}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
