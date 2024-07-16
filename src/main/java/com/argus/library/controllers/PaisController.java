@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/paises") 
 public class PaisController {
 
-    @GetMapping(value = {"", "/"})
+    @GetMapping
     private String getAllPaises(Model model) {
         String uri = "http://localhost:5032/api/Pais";
         RestTemplate restTemplate = new RestTemplate();
@@ -30,7 +31,7 @@ public class PaisController {
         List<Pais> paises = Arrays.asList(response.getBody());
         model.addAttribute("paises", paises);
 
-        return "paises";
+    	return "paises";
     }
 
     
@@ -59,7 +60,8 @@ public class PaisController {
             session.setAttribute("crear", false);
             
             return "formpais";
-        } catch (HttpClientErrorException e) {
+        } 
+        catch (HttpClientErrorException e) {
             System.out.println("Codigo de error: " + e.getStatusCode());
             return "redirect:/paises";
         }
@@ -97,4 +99,19 @@ public class PaisController {
     }
     
     
+    @PostMapping("/eliminar/{id}")
+    private String deletePais(@PathVariable int id) {
+        String uri = "http://localhost:5032/api/Pais/" + id;
+        RestTemplate restTemplate = new RestTemplate();
+        
+        try {
+        	restTemplate.delete(uri);
+        }
+        catch (HttpClientErrorException e) {
+            System.out.println("Codigo de error: " + e.getStatusCode());
+            return "redirect:/paises";
+        }
+    	
+    	return "redirect:/paises";
+    }
 }
