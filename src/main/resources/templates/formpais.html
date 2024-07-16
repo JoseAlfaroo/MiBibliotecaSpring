@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Crear País</title>
+    <title th:text="${crear ? 'Crear País' : 'Editar País'}">Form País</title>
 </head>
 <body>
-    <h1>Crear Nuevo País</h1>
-    <form action="#" th:action="@{/paises/guardar}" th:object="${pais}" method="post">
+    <h1 th:text="${crear ? 'Crear nuevo país' : 'Editar país'}"></h1>
+    <form th:action="@{/paises/guardar}" th:object="${pais}" method="post">
         <div>
             <label for="nombrePais">Nombre del País:</label>
             <input type="text" id="nombrePais" th:field="*{nombrePais}" />
         </div>
         <div>
-            <button type="submit">Guardar</button>
+            <button type="submit" th:text="${crear ? 'Guardar' : 'Actualizar'}"></button>
         </div>
     </form>
 </body>
