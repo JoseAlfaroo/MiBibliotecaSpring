@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Autores</title>
+</head>
+<body>
+    <h1>Lista de Autores</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Pais</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="autor : ${autores}">
+                <td th:text="${autor.autorID}"></td>
+                <td th:text="${autor.nombresAutor}"></td>
+                <td th:text="${autor.apellidosAutor}"></td>
+                <td>
+                	<span th:each="pais : ${paises}" th:if="${pais.paisID == autor.paisID}">
+            			<span th:text="${pais.nombrePais}"></span>
+        			</span>
+                </td>
+                <td>
+                	<a th:href="@{ 'autores/editar/' + ${autor.autorID} }">Editar</a>
+                	<form th:action="@{ '/autores/eliminar/' + ${autor.autorID} }" method="post">
+                		<button type="submit">Eliminar</button>
+                	</form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
