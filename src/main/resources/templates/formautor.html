@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${crear ? 'Crear Autor' : 'Editar Autor'}">Form Autor</title>
+</head>
+<body>
+    <h1 th:text="${crear ? 'Crear nuevo autor' : 'Editar autor'}"></h1>
+    <form th:action="@{/autores/guardar}" th:object="${autor}" method="post">
+       <div>
+            <label for="nombresAutor">Nombres del autor:</label>
+            <input type="text" id="nombresAutor" th:field="*{nombresAutor}" />
+        </div>
+        <div>
+            <label for="apellidosAutor">Apellidos del autor:</label>
+            <input type="text" id="apellidosAutor" th:field="*{apellidosAutor}" />
+        </div>
+        <div>
+            <label for="pais">Pais:</label>
+            <select id="paisID" th:field="*{paisID}" >
+            	<option th:each="pais : ${paises}" th:value="${pais.paisID}" th:text="${pais.nombrePais}" th:selected="${autor.paisID == pais.paisID}">
+            </select>
+        </div>
+        <div>
+            <button type="submit" th:text="${crear ? 'Guardar' : 'Actualizar'}"></button>
+        </div>
+    </form>
+</body>
+</html>

@@ -7,11 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
 import com.argus.library.models.Autor;
 import com.argus.library.models.Pais;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/autores") 
@@ -35,4 +39,49 @@ public class AutorController {
         return "autores";
 	}
 
+	@GetMapping("/nuevo")
+	public String crearAutor(Model model, HttpSession session) {
+        String uriPaises = "http://localhost:5032/api/Pais";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Pais[]> responsePaises = restTemplate.getForEntity(uriPaises, Pais[].class);
+        
+        List<Pais> paises = Arrays.asList(responsePaises.getBody());
+		
+        model.addAttribute("paises", paises);
+		model.addAttribute("autor", new Autor());
+        model.addAttribute("crear", true);
+        session.setAttribute("crear", true);
+        
+        return "formautor";
+	}
+	
+	
+	@PostMapping("/guardar")
+	public String saveAutor(@ModelAttribute Autor autor, Model model, HttpSession session) {
+        RestTemplate restTemplate = new RestTemplate();
+        String uri = "http://localhost:5032/api/Autor";
+        
+        if(session.getAttribute("crear") == null) {
+        	return "redirect:/autores";
+        };
+        
+        Boolean crear = (Boolean) session.getAttribute("crear");
+        
+        if (crear) {
+            restTemplate.postForEntity(uri, autor, Autor.class);
+            session.removeAttribute("crear");
+            
+            return "redirect:/autores";
+        }
+        else {
+        	int AutorID = (int) session.getAttribute("AutorID");
+
+        	uri = uri + "/" + AutorID;
+        	restTemplate.put(uri, autor);
+            session.removeAttribute("crear");
+            
+            return "redirect:/autores";            
+        }
+        
+	}
 }

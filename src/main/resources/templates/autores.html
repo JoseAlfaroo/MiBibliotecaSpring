@@ -20,11 +20,7 @@
                 <td th:text="${autor.autorID}"></td>
                 <td th:text="${autor.nombresAutor}"></td>
                 <td th:text="${autor.apellidosAutor}"></td>
-                <td>
-                	<span th:each="pais : ${paises}" th:if="${pais.paisID == autor.paisID}">
-            			<span th:text="${pais.nombrePais}"></span>
-        			</span>
-                </td>
+                <td th:each="pais : ${paises}" th:if="${pais.paisID == autor.paisID}" th:text="${pais.nombrePais}"></td>
                 <td>
                 	<a th:href="@{ 'autores/editar/' + ${autor.autorID} }">Editar</a>
                 	<form th:action="@{ '/autores/eliminar/' + ${autor.autorID} }" method="post">
