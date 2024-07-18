@@ -17,6 +17,7 @@
         <div>
             <label for="pais">Pais:</label>
             <select id="paisID" th:field="*{paisID}" >
+            	<option th:unless="${autor.paisID}" value="0" hidden="" disabled>Selecciona un país</option>
             	<option th:each="pais : ${paises}" th:value="${pais.paisID}" th:text="${pais.nombrePais}" th:selected="${autor.paisID == pais.paisID}">
             </select>
         </div>
