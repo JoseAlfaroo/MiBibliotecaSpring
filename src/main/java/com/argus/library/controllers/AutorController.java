@@ -41,6 +41,7 @@ public class AutorController {
         return "autores";
 	}
 
+	
 	@GetMapping("/nuevo")
 	public String crearAutor(Model model, HttpSession session) {
         String uriPaises = "http://localhost:5032/api/Pais";
@@ -56,6 +57,7 @@ public class AutorController {
         
         return "formautor";
 	}
+	
 	
 	@GetMapping("/editar/{id}")
 	public String editarAutor(@PathVariable int id, Model model, HttpSession session) {
@@ -112,6 +114,22 @@ public class AutorController {
             
             return "redirect:/autores";            
         }
+	}
+	
+	
+    @PostMapping("/eliminar/{id}")
+	private String deleteAutor(@PathVariable int id) {
+        String uri = "http://localhost:5032/api/Autor/" + id;
+        RestTemplate restTemplate = new RestTemplate();
         
+        try {
+        	restTemplate.delete(uri);
+        }
+        catch (HttpClientErrorException e) {
+            System.out.println("Codigo de error: " + e.getStatusCode());
+            return "redirect:/autores";
+        }
+        
+    	return "redirect:/autores";
 	}
 }
