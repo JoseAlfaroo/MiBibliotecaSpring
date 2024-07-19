@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${crear ? 'Crear Genero' : 'Editar Genero'}">Form Genero</title>
+</head>
+<body>
+    <h1 th:text="${crear ? 'Crear nuevo genero' : 'Editar genero'}"></h1>
+    <form th:action="@{/generos/guardar}" th:object="${genero}" method="post">
+        <div>
+            <label for="nombreGenero">Genero:</label>
+            <input type="text" id="nombreGenero" th:field="*{nombreGenero}" />
+        </div>
+        <div>
+            <button type="submit" th:text="${crear ? 'Guardar' : 'Actualizar'}"></button>
+        </div>
+    </form>
+</body>
+</html>
