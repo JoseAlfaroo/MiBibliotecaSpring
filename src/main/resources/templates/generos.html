@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Generos</title>
+</head>
+<body>
+    <h1>Lista de Generos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Genero</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="genero : ${generos}">
+                <td th:text="${genero.generoID}"></td>
+                <td th:text="${genero.nombreGenero}"></td>
+                <td>
+                	<a th:href="@{ 'generos/editar/' + ${genero.generoID} }">Editar</a>
+                	<form th:action="@{ '/generos/eliminar/' + ${genero.generoID} }" method="post">
+                		<button type="submit">Eliminar</button>
+                	</form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
